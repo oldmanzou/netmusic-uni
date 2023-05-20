@@ -1,0 +1,262 @@
+<template>
+	<view class="container">
+		<!-- 高斯模糊背景 -->
+		<view class="coverWrapper">
+			<view class="bg" v-if="songDetail.al" :style="{'background-image': `url('${songDetail?.al?.picUrl}')`}"></view>
+			<view class="bgCover"></view>
+		</view>
+
+		<view class="header">
+			<text class="artist">{{joinArtist(songDetail.ar)}}</text>
+			<view class="like">关注</view>
+		</view>
+
+		<view class="cd" :class="{play:isPlay}">
+			<view class="needle">
+				<view class="circle"></view>
+				<image src="@/static/images/play/needle.png"></image>
+			</view>
+			<view class="disContainer" :style="{'animation-play-state': isPlay ? 'running' : 'paused'}">
+				<image src="@/static/images/play/disc.png" class="disImg"></image>
+				<image :src="songDetail?.al?.picUrl" mode="" class="cover"></image>
+			</view>
+		</view>
+
+		<view class="moreOperate">
+			<text class="iconfont icon-xihuan"></text>
+			<text class="iconfont icon-xiazai"></text>
+			<text class="iconfont icon-geciweidianji"></text>
+			<text class="iconfont icon-pinglun"></text>
+			<text class="iconfont icon-gengduo-shuxiang"></text>
+		</view>
+
+		<view class="progress">
+			<text class="currentTime">{{currentTime}}</text>
+			<slider class="slider" :value="currentProgressValue" @change="sliderChange" @changing="sliderChanging"
+				activeColor="#fff" backgroundColor="#d7d4ce" block-color="#fff" block-size="10" />
+			<text>{{duration}}</text>
+		</view>
+
+		<view class="player">
+			<text class="iconfont icon-liebiaoxunhuan"></text>
+			<text class="iconfont icon-shangyishou" @click="switchSong('prev')"></text>
+			<text class="iconfont playBtn" :class="isPlay ? 'icon-zanting': 'icon-24gf-playCircle'"
+				@click="playOrPause"></text>
+			<text class="iconfont icon-xiayishou" @click="switchSong('next')"></text>
+			<text class="iconfont icon-24gl-playlist"></text>
+		</view>
+	</view>
+
+</template>
+
+<script setup>
+	import {
+		init
+	} from '@/hooks/play.js'
+
+	let {
+		songDetail,
+		isPlay,
+		playOrPause,
+		currentTime,
+		currentProgressValue,
+		duration,
+		sliderChanging,
+		sliderChange,
+		switchSong
+	} = init()
+	
+	function joinArtist(artists = []) {
+		return artists.map(item => item.name).join('/')
+	}
+</script>
+<script>
+	export default {
+		name: 'Play'
+	}
+</script>
+
+<style lang="scss" scoped>
+	.container {
+		height: 100%;
+
+		.coverWrapper {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+
+			.bg {
+				width: 100%;
+				height: 100%;
+				background-repeat: no-repeat;
+				background-size: 300%;
+				background-position: center;
+				filter: blur(25rpx);
+			}
+
+			.bgCover {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				background-color: rgba(0, 0, 0, 0.4);
+			}
+		}
+
+		.header {
+			padding-top: 5rpx;
+			display: flex;
+			justify-content: center;
+
+			.artist {
+				z-index: 5;
+				font-size: 25rpx;
+				color: #fff;
+				max-width: 500rpx;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+
+			.like {
+				z-index: 5;
+				margin: 13rpx 0 0 16rpx;
+				padding: 0 2rpx;
+				font-size: 13rpx;
+				background-color: rgba(255, 255, 255, 0.1);
+				color: #fff;
+			}
+		}
+
+		.cd {
+			margin-top: 40rpx;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+
+			&.play {
+				.needle {
+					image {
+						transform: rotate(0);
+					}
+				}
+			}
+
+			.needle {
+				position: relative;
+				z-index: 10;
+
+				image {
+					width: 192rpx;
+					height: 274rpx;
+					margin-left: 96rpx;
+					transform-origin: 28rpx 4rpx;
+					transform: rotate(-29deg);
+					transition: transform 1s linear;
+				}
+
+				.circle {
+					z-index: 1;
+					position: absolute;
+					left: 110rpx;
+					top: -26rpx;
+					width: 50rpx;
+					height: 50rpx;
+					border-radius: 50%;
+					background-color: #fff;
+				}
+			}
+
+			.disContainer {
+				position: absolute;
+				top: 210rpx;
+				width: 598rpx;
+				height: 598rpx;
+				animation: disRotate 10s linear 1s infinite;
+
+				.disImg {
+					z-index: 2;
+					position: absolute;
+					width: 100%;
+					height: 100%;
+				}
+
+				.cover {
+					position: absolute;
+					top: 0;
+					bottom: 0;
+					right: 0;
+					left: 0;
+					margin: auto;
+					width: 370rpx;
+					height: 370rpx;
+				}
+			}
+
+			@keyframes disRotate {
+				from {
+					transform: rotate(0deg);
+				}
+
+				to {
+					transform: rotate(360deg);
+				}
+			}
+		}
+
+		.moreOperate {
+			position: absolute;
+			left: 50%;
+			bottom: 260rpx;
+			width: 90%;
+			transform: translateX(-50%);
+			display: flex;
+			justify-content: space-around;
+
+			text {
+				font-size: 45rpx;
+				color: #d7d4ce;
+			}
+		}
+
+		.progress {
+			position: absolute;
+			left: 50%;
+			bottom: 140rpx;
+			transform: translateX(-50%);
+			width: 90%;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			text {
+				font-size: 20rpx;
+				color: #d7d4ce;
+			}
+
+			:deep(.slider) {
+				flex: 1;
+			}
+		}
+
+		.player {
+			position: absolute;
+			left: 50%;
+			bottom: 54rpx;
+			width: 78%;
+			transform: translateX(-50%);
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			color: #fff;
+
+			text {
+				font-size: 41rpx;
+			}
+
+			.playBtn {
+				font-size: 73rpx;
+			}
+		}
+	}
+</style>

@@ -1,0 +1,62 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/playlistSquare/playlistSquare",
+			"style": {
+				"navigationBarTitleText": "歌单广场",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/playlist/playlist",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/playlistTags/playlistTags",
+			"style": {
+				"navigationBarTitleText": "歌单标签",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "主页"
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "Login",
+				"enablePullDownRefresh": false
+			}
+
+		}
+	],
+	"subPackages": [{
+		"root": "songPackage",
+		"pages": [{
+				"path": "dailyRecommend/dailyRecommend",
+				"style": {
+					"navigationBarTitleText": "每日推荐"
+				}
+			},
+			{
+				"path": "play/play",
+				"style": {
+					"navigationBarTitleText": "你都忘了你有多美"
+				}
+			}
+		]
+	}],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	}
+}
