@@ -19,7 +19,7 @@ export function init() {
 	let songDetail = ref({})
 	let songUrl = ref('')
 	let duration = ref('00:00')
-	let currentTime = ref('00:00') // 当前歌曲播放进度
+	let currentPlayTime = ref('00:00') // 当前歌曲播放进度
 	let currentProgressValue = ref(0) // 当前歌曲进度条取值
 	let isPlay = ref(false)
 	let isChanging = ref(false)
@@ -74,11 +74,19 @@ export function init() {
 			
 			// 监听进度
 			backgroudAudioManager.onTimeUpdate(() => {
-				currentTime.value = moment(backgroudAudioManager.currentTime * 1000).format('mm:ss')
+				currentPlayTime.value = moment(backgroudAudioManager.currentTime * 1000).format('mm:ss')
 				if (!isChanging.value) {
 					currentProgressValue.value = (backgroudAudioManager.currentTime / backgroudAudioManager
 						.duration) * 100
 				}
+			})
+			
+			backgroudAudioManager.onPlay(()=>{
+				onlyChangePlayStyle()
+			})
+			
+			backgroudAudioManager.onPause(()=>{
+				onlyChangePauseStyle()
 			})
 			
 			backgroudAudioManager.onPrev(() =>{
@@ -110,6 +118,14 @@ export function init() {
 
 	function pause() {
 		$global.$audioContext.pause()
+		isPlay.value = false
+	}
+	
+	function onlyChangePlayStyle() {
+		isPlay.value = true
+	}
+	
+	function onlyChangePauseStyle() {
 		isPlay.value = false
 	}
 
@@ -147,7 +163,7 @@ export function init() {
 		songDetail,
 		isPlay,
 		playOrPause,
-		currentTime,
+		currentPlayTime,
 		currentProgressValue,
 		duration,
 		sliderChanging,

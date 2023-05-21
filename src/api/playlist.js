@@ -6,18 +6,18 @@ export function getDailySongs() {
 }
 
 // 获取精品歌单
-export function getBestPlaylist(limit = 21, before, tag) {
+export function getBestPlaylist(limit = 21, tag, before) {
 	const requesObj = {
 		limit
 	}
-	if (tag) requesObj['tag'] = tag
+	if (tag) requesObj['cat'] = tag
 	if (before) requesObj['before'] = before
 
 	return request('/top/playlist/highquality', requesObj)
 }
 
 // 获取普通歌单(all 或 tag)
-export function getPlaylists(tag = 全部, offset = 0, limit = 50) {
+export function getPlaylists(tag = 全部, offset = 0, limit = 21) {
 	return request(`/top/playlist?cat=${tag}&limit=${limit}&offset=${offset}`)
 }
 

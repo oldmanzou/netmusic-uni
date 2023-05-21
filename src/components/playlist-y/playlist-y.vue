@@ -16,11 +16,12 @@
 				</view>
 				<view class="listContainer">
 					<scroll-view scroll-y="true" class="tagScroll">
-						<view class="all">
+						<view class="all" :class="{active:bestTag == '全部'}" @click="selectTag('全部')">
 							全部精选
 						</view>
 						<view class="list">
-							<view class="item" v-for="item in bestTags" :key="item.id">
+							<view class="item" :class="{active:bestTag == item.name}" v-for="item in bestTags"
+								:key="item.id" @click="selectTag(item.name)">
 								{{item.name}}
 							</view>
 						</view>
@@ -31,7 +32,7 @@
 
 		<!-- 歌单列表 -->
 		<view class="playlists">
-			<view class="playlist" v-for="item in (isBest ?  bestPlaylist : playlist)" :key="item.id"
+			<view class="playlist" v-for="item in (isBest ?  bestPlaylist : playlists)" :key="item.id"
 				@click="toPlaylistPage(item.id)">
 				<image :src="item.coverImgUrl" class="cover"></image>
 				<text class="discription">{{item.name}}</text>
@@ -47,9 +48,7 @@
 
 <script setup>
 	import {
-		hGetBestTag,
-		hGetBestPlaylist,
-		hook
+		hGetData
 	} from '@/hooks/playlist-y.js'
 
 	let props = defineProps({
@@ -65,16 +64,23 @@
 
 	const emit = defineEmits(['update:reachBottom'])
 
-	// **********************精品歌单相关**********************************
+	// **********************歌单相关**********************************
 	let {
 		isBest,
 		title,
 		bestTags,
 		bestPlaylist,
-		more,
+		bestTag,
 		loadMore,
-		playlist
-	} = hook(props)
+		playlists,
+		more
+	} = hGetData(props)
+
+	function selectTag(tag) {
+		bestTag.value = tag
+
+		closePopup()
+	}
 
 	// 弹出层
 	let showPopup = ref(false)
@@ -155,10 +161,9 @@
 						height: 60rpx;
 						line-height: 60rpx;
 						text-align: center;
-						background-color: #d7524b;
+						background-color: rgba(0, 0, 0, 0.1);
 						border-radius: 30rpx;
 						font-size: 25rpx;
-						color: #fff;
 					}
 
 
@@ -182,6 +187,11 @@
 							padding: 0 6rpx;
 							box-sizing: border-box;
 						}
+					}
+
+					.active {
+						background-color: #d7524b !important;
+						color: #fff;
 					}
 				}
 

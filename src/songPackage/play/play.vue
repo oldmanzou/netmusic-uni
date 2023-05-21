@@ -31,7 +31,7 @@
 		</view>
 
 		<view class="progress">
-			<text class="currentTime">{{currentTime}}</text>
+			<text class="currentTime">{{currentPlayTime}}</text>
 			<slider class="slider" :value="currentProgressValue" @change="sliderChange" @changing="sliderChanging"
 				activeColor="#fff" backgroundColor="#d7d4ce" block-color="#fff" block-size="10" />
 			<text>{{duration}}</text>
@@ -58,13 +58,17 @@
 		songDetail,
 		isPlay,
 		playOrPause,
-		currentTime,
+		currentPlayTime,
 		currentProgressValue,
 		duration,
 		sliderChanging,
 		sliderChange,
 		switchSong
 	} = init()
+	
+	watch(currentPlayTime,()=> {
+		console.log(currentPlayTime.value)
+	})
 	
 	function joinArtist(artists = []) {
 		return artists.map(item => item.name).join('/')

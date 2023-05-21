@@ -6,95 +6,109 @@ import {
 	getPlaylists
 } from '@/api/playlist.js'
 
-export function hook(props) {
+
+export function hGetData(props) {
 	let isBest = computed(() => props.tag == '精品')
 
 	// 精品歌单部分
 	let title = ref('全部精品')
 	let bestTags = ref([])
 	let bestPlaylist = ref([])
-	let loadMore = ref('') // 函数
-
+	let loadMore = ref({}) // 函数
+	let bestTag = ref('全部')
+	
 	// 非精品歌单部分
-	let playlist = ref([])
+	let playlists = ref([])
 
 	// 共同部分
 	let more = ref(true)
 
-	watch(() => props.tag, () => {
-		fn()
-	}, {
+	watch(() => props.tag, getData, {
 		immediate: true
 	})
+	
+	watch(bestTag,() => {
+		more.value = true 
+		bestPlaylist.value = []
+		title.value = bestTag == '全部' ? '全部精品' : bestTag.value 
+		
+		hGetBestPlaylist()
+	})
 
-	async function fn() {
-		// 精品歌单
+	// 总回调
+	function getData() {
+		// 重置
+		title.value = '全部精品'
+		bestTags.value = []
+		bestPlaylist.value = []
+		bestTag.value = '全部'
+		loadMore.value = {}
+		playlists.value = []
+		more.value = true
+
+		// 精品歌单部分
 		if (isBest.value) {
-			bestTags.value = await hGetBestTag()
-
-			const result = hGetBestPlaylist()
-			bestPlaylist.value = result.bestPlaylist.value
-			more = result.more
-			loadMore.value = result.loadMore
+			hGetBestTag()
+			hGetBestPlaylist()
 		} else {
-			const result = await hGetPlaylist(props.tag)
-			more.value = result.more
-			playlist.value = result.playlists
+			hGetPlaylist(props.tag)
 		}
 	}
 
-	// 获取精品歌单标签
+	// 精品歌单标签
 	async function hGetBestTag() {
 		const {
 			tags
 		} = await getBestTag()
 
-		return tags
+		bestTags.value = tags
 	}
 
-	// 获取精品歌单
+	// 精品歌单
 	function hGetBestPlaylist() {
-		let bestPlaylist = ref([]) // 歌单列表
-		let more = ref(true) // 是否还有数据
-		let beforeValue = ref(0)
+		let beforeValue = 0
+		
+		getData(21,bestTag.value)
 
-		getData()
+		function loadMoreFn() {
+			getData(21,bestTag.value, beforeValue)
+		}
 
-		function getData(limit, before, tag) {
+		loadMore.value = loadMoreFn
+
+		function getData(limit, tag, before) {
 			if (more.value) {
-				getBestPlaylist(limit, before, tag).then(res => {
+				getBestPlaylist(limit, tag, before).then(res => {
 					bestPlaylist.value.push(...res.playlists)
 					more.value = res.more
-					beforeValue.value = res.playlists[res.playlists.length - 1].updateTime
+					beforeValue = res.playlists[res.playlists.length - 1].updateTime
+				})
+			}
+		}
+	}
+
+	// 歌单
+	function hGetPlaylist(tag) {
+		let offset = 0
+
+		getData(tag)
+
+		function getData(tag, o, l) {
+			if(more.value) {
+				getPlaylists(tag, o, l).then(res => {
+					more.value = res.more
+					playlists.value.push(...res.playlists)
+				
+					offset += 21
 				})
 			}
 		}
 
-		function loadMore() {
-			getData(21, beforeValue.value)
+		function loadMoreFn() {
+			getData(tag, offset)
 		}
 
-		return {
-			bestPlaylist,
-			more,
-			loadMore
-		}
-	}
-
-	// 获取非精品歌单
-	async function hGetPlaylist(tag) {
-		let more = ref(true)
-		let playlists = ref([])
-
-		const {
-			more,
-			playlists
-		} = await getPlaylists(tag)
-
-		return {
-			more,
-			playlists
-		}
+		loadMore.value = loadMoreFn
 	}
 
 	return {
@@ -102,8 +116,9 @@ export function hook(props) {
 		title,
 		bestTags,
 		bestPlaylist,
-		more,
+		bestTag,
 		loadMore,
-		playlist
+		playlists,
+		more
 	}
 }

@@ -2,7 +2,7 @@
 	<view class="container">
 		<view class="header">
 			<scroll-view scroll-x="true" class="tagScroll">
-				<u-tabs :list="tags" :current="2" lineColor="#dd001b" lineWidth="30rpx" @click="tagClick"></u-tabs>
+				<u-tabs :list="tags" :current="1" lineColor="#dd001b" lineWidth="30rpx" @click="tagClick"></u-tabs>
 			</scroll-view>
 			<text class="iconfont icon-ziyuanxhdpi" @click="toPlaylistTagsPage"></text>
 		</view>
@@ -14,7 +14,7 @@
 <script setup>
 	const store = useStore()
 	let tags = computed(() => store.state.playlistTags.userSelectTags)
-	let currentTag = ref('精品')
+	let currentTag = ref('官方')
 	let reachBottom = ref(false)
 
 	function toPlaylistTagsPage() {
