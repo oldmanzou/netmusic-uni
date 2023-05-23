@@ -1,12 +1,12 @@
 <template>
 	<view class="container">
-		<view class="title">
+		<view class="title" @click="toPage">
 			<text>{{title}}</text>
 			<text class="iconfont icon-xiangyou1"></text>
 		</view>
 		<scroll-view scroll-x="true" class="playlist">
 			<view class="wrapper">
-				<view class="item" v-for="item in playlist" :key="item.id">
+				<view class="item" v-for="item in playlist" :key="item.id" @click="toPlaylistPage(item.id)">
 					<image class="coverImg" :src="item.picUrl" />
 					<text class="dis">{{item.name}}</text>
 				</view>
@@ -15,21 +15,40 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		name: "playList",
-		props: {
-			title: {
-				type: String,
-				default: '标题'
-			},
-			playlist: {
-				type: Array,
-				default () {
-					return []
-				}
+<script setup>
+	const props = defineProps({
+		title: {
+			type: String,
+			default: '标题'
+		},
+		playlist: {
+			type: Array,
+			default () {
+				return []
 			}
 		}
+	})
+
+	// 点击标题跳转
+	function toPage() {
+		if (props.title == '推荐歌单') {
+			uni.navigateTo({
+				url: '/pages/playlistSquare/playlistSquare'
+			})
+		}
+	}
+	
+	// 点击具体歌单封面跳转
+	function toPlaylistPage(playlistId) {
+		uni.navigateTo({
+			url: `/pages/playlist/playlist?id=${playlistId}`
+		})
+	}
+</script>
+
+<script>
+	export default {
+		name: "playList"
 	}
 </script>
 

@@ -30,7 +30,7 @@
 					<text class="iconfont icon-shouyinji"></text>
 					<text class="nav_name">私人FM</text>
 				</view>
-				<view class="nav_item">
+				<view class="nav_item" @click="toPlaylistSquare">
 					<text class="iconfont icon-gedan"></text>
 					<text class="nav_name">歌单</text>
 				</view>
@@ -80,6 +80,11 @@
 		hGetPersonalized
 	} from '@/hooks/home.js'
 
+	// 未登录,跳转到登录页面
+	const userProfile = uni.getStorageSync('userProfile')
+	if(!userProfile) uni.navigateTo({
+		url:'/pages/login/login'
+	})
 
 	let defaultSearchKeyword = getSearchKeyword() // 默认搜索关键字
 	let banners = hGetBanners() // banners列表
@@ -89,6 +94,13 @@
 	function toDailyPage() {
 		uni.navigateTo({
 			url:'/songPackage/dailyRecommend/dailyRecommend'
+		})
+	}
+	
+	// 去歌单广场
+	function toPlaylistSquare() {
+		uni.navigateTo({
+			url:'/pages/playlistSquare/playlistSquare'
 		})
 	}
 </script>

@@ -9,3 +9,8 @@ export function getSongDetail(songId) {
 export function getSongUrl(songId) {
 	return request(`/song/url?id=${songId}`)
 }
+
+// 获取歌词
+export function getLyric(songId) {
+	return request(`/lyric?id=${songId}`)
+}

@@ -58,10 +58,18 @@ export function qrLogin() {
 	async function login(cookie) {
 		const statusRes = await getLoginStatus(cookie)
 		console.log(statusRes);
-		uni.setStorageSync('userProfile', JSON.stringify(statusRes.data.profile))
-
-		uni.navigateTo({
-			url: '/pages/index/index'
-		})
+		if(statusRes.data.profile) {
+			uni.setStorageSync('userProfile', JSON.stringify(statusRes.data.profile))
+			
+			uni.navigateTo({
+				url: '/pages/index/index'
+			})
+		}else {
+			uni.showToast({
+				title:'扫码失败,请重新扫码'
+			})
+			
+			createQrcode()
+		}
 	}
 }
