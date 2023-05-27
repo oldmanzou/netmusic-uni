@@ -29,7 +29,7 @@
 							<text class="tagName">8.4分</text>
 							<text class="iconfont icon-xiangyou1"></text>
 						</view>
-						<view class="tag" v-for="item in playlistDetail.algTags" :key="item" >
+						<view class="tag" v-for="item in playlistDetail.algTags" :key="item">
 							<text class="tagName">{{item}}</text>
 							<text class="iconfont icon-xiangyou1"></text>
 						</view>
@@ -45,15 +45,15 @@
 		<view class="btns">
 			<view class="btn">
 				<text class="iconfont icon-fenxiang1"></text>
-				<text class="num">{{playlistDetail.shareCount}}</text>
+				<text class="num">{{playlistDetail.shareCount || '分享'}}</text>
 			</view>
 			<view class="btn">
 				<text class="iconfont icon-pinglun"></text>
-				<text class="num">{{playlistDetail.commentCount}}</text>
+				<text class="num">{{playlistDetail.commentCount || '评论'}}</text>
 			</view>
-			<view class="btn best">
+			<view class="btn best" :class="{disabled:disableCollect}">
 				<text class="iconfont icon-shoucangjia"></text>
-				<text class="num">{{playlistDetail.subscribedCount}}</text>
+				<text class="num">{{playlistDetail.subscribedCount || '收藏'}}</text>
 			</view>
 		</view>
 	</view>
@@ -71,7 +71,8 @@
 	let {
 		color,
 		playlistDetail,
-		tracks
+		tracks,
+		disableCollect
 	} = getDetailAndTracks()
 </script>
 
@@ -256,6 +257,19 @@
 					margin-bottom: 5rpx;
 					font-size: 22rpx;
 					margin-left: 10rpx;
+				}
+
+				&.disabled {
+					background-color: rgba(255, 255, 255, 0.2);
+
+					.iconfont {
+						// color: #b8b4b3;
+						color: rgba(255, 255, 255, 0.5);
+					}
+
+					.num {
+						color: rgba(255, 255, 255, 0.2);
+					}
 				}
 			}
 

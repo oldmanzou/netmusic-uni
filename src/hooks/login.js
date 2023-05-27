@@ -61,7 +61,7 @@ export function qrLogin() {
 		if(statusRes.data.profile) {
 			uni.setStorageSync('userProfile', JSON.stringify(statusRes.data.profile))
 			
-			uni.navigateTo({
+			uni.switchTab({
 				url: '/pages/index/index'
 			})
 		}else {

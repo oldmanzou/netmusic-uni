@@ -32,13 +32,9 @@
 			userId: result.userId
 		}))
 
-
 		// 需要切换到index
-		// uni.switchTab({
-		// 	url:'../index/index'
-		// })
-		uni.navigateTo({
-			url: '../index/index'
+		uni.switchTab({
+			url: '/pages/index/index'
 		})
 	}
 

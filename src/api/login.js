@@ -26,3 +26,8 @@ export function getQrCheckStatus(qrkey) {
 export function getLoginStatus() {
 	return request(`/login/status?timestamp=${new Date()}`)
 }
+
+// 退出登录
+export function logout() {
+	return request('/logout')
+}

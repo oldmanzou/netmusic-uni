@@ -7,6 +7,29 @@
 			}
 		},
 		{
+			"path": "pages/searchResult/searchResult",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/search/search",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/myMusic/myMusic",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		},
+
+		{
 			"path": "pages/playlistSquare/playlistSquare",
 			"style": {
 				"navigationBarTitleText": "歌单广场",
@@ -48,11 +71,29 @@
 			{
 				"path": "play/play",
 				"style": {
-					"navigationBarTitleText": "你都忘了你有多美"
+					"navigationBarTitleText": ""
 				}
 			}
 		]
 	}],
+	"tabBar": {
+		"color": "#8a8a8a",
+		"selectedColor": "#ef0c2e",
+		"backgroundColor": "#fff",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"text": "发现",
+				"iconPath": "static/images/tabbar/find.png",
+				"selectedIconPath": "static/images/tabbar/find_active.png"
+			},
+			{
+				"pagePath": "pages/myMusic/myMusic",
+				"text": "我的",
+				"iconPath": "static/images/tabbar/my.png",
+				"selectedIconPath": "static/images/tabbar/my_active.png"
+			}
+		]
+	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",

@@ -12,6 +12,7 @@ onHide(() => {
 	@import "@/uni_modules/uview-plus/index.scss";
 	page{
 		height: 100%;
+		// overflow: hidden;
 	}
 	
 	/* 隐藏scroll-view 在安卓机上的横向滚动条 */
@@ -20,5 +21,9 @@ onHide(() => {
 	    height: 0;
 	    color: transparent;
 	    display:none;
+	}
+	
+	view[hidden] {
+		display: none !important;
 	}
 </style>

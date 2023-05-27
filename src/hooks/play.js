@@ -1,8 +1,4 @@
 import {
-	onLoad,
-	onReady
-} from "@dcloudio/uni-app";
-import {
 	getSongDetail,
 	getSongUrl,
 	getLyric

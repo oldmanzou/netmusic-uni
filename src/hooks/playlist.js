@@ -25,10 +25,12 @@ export function getDetailAndTracks(id) {
 	})
 	let tracks = ref([])
 
+	let disableCollect = ref(false)
 
-
+	// disCollect 表示是否禁用收藏按钮 如，在我喜欢的歌单，自然不需要收藏功能
 	onLoad(({
-		id
+		id,
+		disCollect
 	}) => {
 		playlistId.value = id
 
@@ -36,6 +38,8 @@ export function getDetailAndTracks(id) {
 			playlistDetail.value = res.playlist
 			trackIds.value = res.playlist.trackIds
 		})
+
+		if (disCollect) disableCollect.value = true
 	})
 
 	watch(trackIds, () => {
@@ -47,6 +51,7 @@ export function getDetailAndTracks(id) {
 	return {
 		color,
 		playlistDetail,
-		tracks
+		tracks,
+		disableCollect
 	}
 }

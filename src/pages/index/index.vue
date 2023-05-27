@@ -2,7 +2,7 @@
 	<view class="indexContainer">
 		<!-- 头部 -->
 		<view class="header">
-			<text class="iconfont icon-liebiao"></text>
+			<text class="iconfont icon-liebiao" @click="showLeftPopup"></text>
 			<view class="inputWrapper">
 				<text class="iconfont icon-sousuo"></text>
 				<input type="text" :placeholder="defaultSearchKeyword" placeholder-class="placeholder">
@@ -10,6 +10,8 @@
 			</view>
 			<text class="iconfont icon-maikefeng"></text>
 		</view>
+
+		<sidebar :showPopup="showPopup" @update:showPopup="showPopup = $event"></sidebar>
 
 		<!-- 广告swiper -->
 		<swiper :indicator-dots="true" indicator-color="rgba(255,255,255,0.3)" indicator-active-color="#FFFFFF"
@@ -68,7 +70,7 @@
 		<!-- 推荐歌单 -->
 		<playList-x title="推荐歌单" :playlist="personalized"></playList-x>
 
-		<!-- 用户的雷达歌单 暂未找到接口 --> 
+		<!-- 用户的雷达歌单 暂未找到接口 -->
 		<!-- <playList title="小邹本邹的雷达歌单"></playList> -->
 	</view>
 </template>
@@ -82,26 +84,33 @@
 
 	// 未登录,跳转到登录页面
 	const userProfile = uni.getStorageSync('userProfile')
-	if(!userProfile) uni.navigateTo({
-		url:'/pages/login/login'
+	if (!userProfile) uni.navigateTo({
+		url: '/pages/login/login'
 	})
 
 	let defaultSearchKeyword = getSearchKeyword() // 默认搜索关键字
 	let banners = hGetBanners() // banners列表
 	let personalized = hGetPersonalized() // 获取推荐歌单
-	
+
 	// 去每日推荐页面
 	function toDailyPage() {
 		uni.navigateTo({
-			url:'/songPackage/dailyRecommend/dailyRecommend'
+			url: '/songPackage/dailyRecommend/dailyRecommend'
 		})
 	}
-	
+
 	// 去歌单广场
 	function toPlaylistSquare() {
 		uni.navigateTo({
-			url:'/pages/playlistSquare/playlistSquare'
+			url: '/pages/playlistSquare/playlistSquare'
 		})
+	}
+	
+	// 是否显示左侧弹出框
+	let showPopup = ref(false)
+	
+	function showLeftPopup() {
+		showPopup.value = true
 	}
 </script>
 <script>
