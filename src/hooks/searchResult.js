@@ -350,6 +350,57 @@ export function hArtist(inputValue) {
 	}
 }
 
+// 专辑
+export function hAlbum(inputValue) {
+	let albums = ref({
+		albums: [],
+		more: true
+	}) // 对象，包含曲目列表和more
+	let offset = 0
+	let loading = false
+
+	watch(inputValue, () => {
+		albums.vlaue = {
+			albums: [],
+			more: true
+		}
+		getData()
+	})
+
+	function getData() {
+		if (albums.value.more && !loading) {
+			loading = true
+			getSearchResult(inputValue.value, 10, 15, offset).then(({
+				code,
+				result
+			}) => {
+				if (code == 200 && result.albumCount) {
+					const albumIds = albums.value.albums.map(u => u.id)
+					result.albums.forEach(a => {
+						if (!albumIds.includes(a.id)) {
+							albums.value.albums.push(a)
+						}
+					})
+					albums.value.more = (result.albumCount > albums.value.albums.length)
+
+					offset += result.albums.length
+					loading = false
+				} else if (code == 200 && !result.albumCount) {
+					albums.value.more = false
+				}
+			})
+		}
+	}
+
+	function loadMoreAlbum() {
+		getData()
+	}
+
+	return {
+		albums,
+		loadMoreAlbum
+	}
+}
 
 // 声音
 export function hVoice(inputValue) {

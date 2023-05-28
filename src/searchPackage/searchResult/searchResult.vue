@@ -2,7 +2,7 @@
 	<view class="header">
 		<view class="search_wrapper">
 			<text class="iconfont icon-sousuo"></text>
-			<input type="text" v-model="inputValue" class="input">
+			<input type="text" v-model="inputValue" class="input" @focus="handleInputFocus">
 			<text class="iconfont icon-chahao"></text>
 		</view>
 		<text class="search_btn">搜索</text>
@@ -58,7 +58,7 @@
 					</view>
 					<view class="mv_info">
 						<view class="mv_name">{{m.baseInfo.resource.mlogBaseData.text}}</view>
-						<text class="mv_dis">{{m.baseInfo.resource.userProfile.nickname}},
+						<text class="mv_dis">{{m?.baseInfo?.resource?.mlogExtVO?.artistName}},
 							{{formatTime(m.baseInfo.resource.mlogBaseData.duration)}},
 							播放:{{(m.baseInfo.resource.mlogExtVO.playCount / 10000).toFixed(1)}}万</text>
 					</view>
@@ -202,13 +202,14 @@
 		<!-- 播客 -->
 		<swiper-item class="swiper-item">
 		</swiper-item>
-		
+
 		<!-- 歌词 -->
 		<swiper-item class="swiper-item">
 		</swiper-item>
 
 		<!-- 专辑 -->
 		<swiper-item class="swiper-item">
+			<album_list :albums="albums" @albumReachBottom="albumReachBottom"></album_list>
 		</swiper-item>
 
 		<!-- 声音 -->
@@ -243,7 +244,8 @@
 		hVideo,
 		hArtist,
 		hUser,
-		hVoice
+		hVoice,
+		hAlbum
 	} from '@/hooks/searchResult.js'
 
 	// *********************************tabs***********************************
@@ -273,7 +275,7 @@
 			name: '用户'
 		}
 	])
-	const currentSwiperIndex = ref(8)
+	const currentSwiperIndex = ref(0)
 
 	function tabChange(e) {
 		currentSwiperIndex.value = e.index
@@ -282,10 +284,16 @@
 	// *********************************搜索框输入值***********************************
 	let inputValue = ref('')
 	onLoad(({
-		keyword = '告五人'
+		keyword = ''
 	}) => {
 		inputValue.value = keyword
 	})
+	
+	function handleInputFocus(e) {
+		uni.navigateTo({
+			url:`/searchPackage/search/search?keyword=${e.detail.value}`
+		})
+	}
 
 	// *********************************综合***********************************
 	// 综合-多重匹配
@@ -334,13 +342,23 @@
 		artists,
 		loadMoreArtist
 	} = hArtist(inputValue)
+	
+	// *********************************专辑***********************************
+	let {
+		albums,
+		loadMoreAlbum
+	} = hAlbum(inputValue)
+	
+	function albumReachBottom() {
+		loadMoreAlbum()
+	}
 
 	// *********************************声音***********************************
 	let {
 		voices,
 		loadMoreVoice
 	} = hVoice(inputValue)
-	
+
 	function voiceReachBottom() {
 		loadMoreVoice()
 	}
@@ -350,7 +368,7 @@
 		users,
 		loadMoreUser
 	} = hUser(inputValue)
-	
+
 	function userReachBottom() {
 		loadMoreUser()
 	}
@@ -432,13 +450,13 @@
 		height: calc(100vh - 168rpx);
 
 		.swiper-item {
-			// background-color: #f6f6f6;
 			background-color: #fff;
 			overflow: auto;
 
 			// 综合
 			&.all {
-				background-color: pink;
+				background-color: #f6f6f6;
+				// background-color: pink;
 				box-sizing: border-box;
 				padding: 25rpx;
 
@@ -716,7 +734,7 @@
 			&.artist {
 				padding-top: 10rpx;
 			}
-			
+
 			// 声音
 			&.voice {
 				padding-top: 10rpx;

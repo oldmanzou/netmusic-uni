@@ -15,7 +15,9 @@
 				<view class="songInfo">
 					<view class="songName">{{song.name}}</view>
 					<view class="otherInfo">
-						<view class="tag" v-if="song.reason">{{song.reason}}</view>
+						<!-- <view class="tag" v-if="song.reason">{{song.reason}}</view> -->
+						<view class="tag" v-if="song.fee == 1">vip</view>
+						<view class="tag" v-if="song.fee == 4">购买专辑</view>
 						<text class="artist" v-if="song.ar">{{joinArtistsName(song.ar) + '-' + song.al.name}}</text>
 					</view>
 				</view>
@@ -147,7 +149,7 @@
 	function joinArtistsName(artist) {
 		return artist.map(item => item.name).join('/')
 	}
-
+	
 	// popup 部分
 	let song = ref({})
 

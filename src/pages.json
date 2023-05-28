@@ -7,46 +7,9 @@
 			}
 		},
 		{
-			"path": "pages/searchResult/searchResult",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/search/search",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
 			"path": "pages/myMusic/myMusic",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-
-		},
-
-		{
-			"path": "pages/playlistSquare/playlistSquare",
-			"style": {
-				"navigationBarTitleText": "歌单广场",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/playlist/playlist",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/playlistTags/playlistTags",
-			"style": {
-				"navigationBarTitleText": "歌单标签",
 				"enablePullDownRefresh": false
 			}
 
@@ -69,9 +32,48 @@
 				}
 			},
 			{
+				"path": "playlistSquare/playlistSquare",
+				"style": {
+					"navigationBarTitleText": "歌单广场",
+					"enablePullDownRefresh": true
+				}
+			},
+			{
+				"path": "playlistTags/playlistTags",
+				"style": {
+					"navigationBarTitleText": "歌单标签",
+					"enablePullDownRefresh": false
+				}
+
+			},
+			{
+				"path": "playlist/playlist",
+				"style": {
+					"navigationBarTitleText": "",
+					"enablePullDownRefresh": false
+				}
+			},
+			{
 				"path": "play/play",
 				"style": {
 					"navigationBarTitleText": ""
+				}
+			}
+		]
+	}, {
+		"root": "searchPackage",
+		"pages": [{
+				"path": "search/search",
+				"style": {
+					"navigationBarTitleText": "",
+					"enablePullDownRefresh": false
+				}
+			},
+			{
+				"path": "searchResult/searchResult",
+				"style": {
+					"navigationBarTitleText": "",
+					"enablePullDownRefresh": false
 				}
 			}
 		]

@@ -33,7 +33,7 @@
 	function toPage() {
 		if (props.title == '推荐歌单') {
 			uni.navigateTo({
-				url: '/pages/playlistSquare/playlistSquare'
+				url: '/songPackage/playlistSquare/playlistSquare'
 			})
 		}
 	}
@@ -41,7 +41,7 @@
 	// 点击具体歌单封面跳转
 	function toPlaylistPage(playlistId) {
 		uni.navigateTo({
-			url: `/pages/playlist/playlist?id=${playlistId}`
+			url: `/songPackage/playlist/playlist?id=${playlistId}`
 		})
 	}
 </script>

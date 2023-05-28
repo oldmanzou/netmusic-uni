@@ -14,6 +14,18 @@ const state = {
 			name: '电子'
 		}, {
 			name: '说唱'
+		}, {
+			name: '粤语'
+		}, {
+			name: '运动'
+		}, {
+			name: '浪漫'
+		}, {
+			name: '兴奋'
+		}, {
+			name: '驾车',
+		}, {
+			name: '90后'
 		}
 	]
 }

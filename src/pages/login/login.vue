@@ -1,6 +1,6 @@
 <template>
 	<view class="header">
-		<view @click="handleLooseLogin">立即体验</view>
+		<view @click="handleLooseLogin" class="looseLoginBtn">立即体验</view>
 	</view>
 
 	<view class="logo">
@@ -9,7 +9,7 @@
 
 	<view class="qrCode">
 		<canvas v-if="isShowQr" style="width: 200px; height: 200px;" canvas-id="myQrcode"></canvas>
-		<text @click="showQr">切换二维码登录</text>
+		<u-button @click="showQr" size="mini" type="primary" shape="circle">切换二维码登录</u-button>
 	</view>
 </template>
 
@@ -44,13 +44,11 @@
 
 		qrLogin()
 	}
-
-
 </script>
 
 <script>
 	export default {
-		name:'Login',
+		name: 'Login',
 		data() {
 			return {
 
@@ -64,11 +62,12 @@
 		line-height: 60rpx;
 		height: 60rpx;
 
-		view {
+		.looseLoginBtn {
 			float: right;
 			margin-right: 20rpx;
-			font-size: 20rpx;
+			font-size: 25rpx;
 			color: #333;
+			font-weight: bold;
 		}
 	}
 
@@ -94,11 +93,12 @@
 			width: 400rpx;
 			height: 400rpx;
 		}
-
-		text {
-			font-size: 20rpx;
+		
+		:deep(.u-button) {
 			margin-top: 20rpx;
-			color: #7bc0fb;
+			width: 180rpx;
+			height: 70rpx;
+			font-weight: bold;
 		}
 	}
 </style>

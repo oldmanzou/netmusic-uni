@@ -19,7 +19,7 @@
 
 	function toPlaylistTagsPage() {
 		uni.navigateTo({
-			url: '/pages/playlistTags/playlistTags'
+			url: '/songPackage/playlistTags/playlistTags'
 		})
 	}
 

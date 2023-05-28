@@ -23,7 +23,7 @@
 
 	function toPlaylistPage() {
 		uni.navigateTo({
-			url: `/pages/playlist/playlist?id=${props.playlist.id}`
+			url: `/songPackage/playlist/playlist?id=${props.playlist.id}`
 		})
 	}
 </script>

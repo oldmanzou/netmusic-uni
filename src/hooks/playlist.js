@@ -36,6 +36,7 @@ export function getDetailAndTracks(id) {
 
 		getPlaylistDetail(id).then(res => {
 			playlistDetail.value = res.playlist
+			console.log(playlistDetail.value);
 			trackIds.value = res.playlist.trackIds
 		})
 

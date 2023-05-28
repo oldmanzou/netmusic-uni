@@ -14,6 +14,7 @@ export function hGetUserDetail() {
 
 	userId && getUserDetail(userId).then(res => {
 		userDetail.value = res
+		console.log(userDetail.value);
 	})
 
 	return userDetail

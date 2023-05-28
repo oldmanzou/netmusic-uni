@@ -8,17 +8,18 @@
 				<image :src="userDetail?.profile?.avatarUrl" class="avatar"></image>
 				<text class="username">{{userDetail?.profile?.nickname}}</text>
 			</view>
-			<text class="iconfont icon-sousuo"></text>
+			<text class="iconfont icon-sousuo" @click="toSearchPage"></text>
 		</view>
 
 		<sidebar :showPopup="showPopup" @update:showPopup="showPopup = $event"></sidebar>
 
 		<view class="userBaseInfo" :style="{opacity: 1 - transparent }">
-			<image :src="userDetail?.profile?.avatarUrl" mode="" class="avatar"></image>
+			<image :src="userDetail?.profile?.avatarUrl || '/static/images/myMusic/default_avatar.png'" mode="" class="avatar"></image>
 			<view class="username">
 				<text class="txt">{{userDetail?.profile?.nickname}}</text>
+				<view v-if="!userDetail.level" class="loginHint" @click="toLoginPage">请登录</view>
 			</view>
-			<view class="otherInfo">
+			<view class="otherInfo" v-if="userDetail.level">
 				<text>{{userDetail?.profile?.follows}} 关注</text>
 				<text>{{userDetail?.profile?.followeds}} 粉丝</text>
 				<text>Lv.{{userDetail.level}}</text>
@@ -195,17 +196,29 @@
 		userConcernedPlaylist
 	} = hGetUserPlaylists()
 
-	// *******************跳转歌单页面******************
+	// *******************跳转页面******************
 	// 去用户自己的歌单页面(如:"我喜欢歌单","用户创建歌单"),会禁止收藏按钮
 	function toUserPlaylistPage(id) {
 		uni.navigateTo({
-			url: `/pages/playlist/playlist?id=${id}&disCollect=true`
+			url: `/songPackage/playlist/playlist?id=${id}&disCollect=true`
 		})
 	}
 
 	function toPlaylistPage(id) {
 		uni.navigateTo({
-			url: `/pages/playlist/playlist?id=${id}`
+			url: `/songPackage/playlist/playlist?id=${id}`
+		})
+	}
+
+	function toLoginPage () {
+		uni.navigateTo({
+			url:'/pages/login/login'
+		})
+	}
+	
+	function toSearchPage() {
+		uni.navigateTo({
+			url:'/searchPackage/search/search'
 		})
 	}
 
@@ -294,6 +307,12 @@
 
 				.txt {
 					font-weight: bold;
+				}
+				
+				.loginHint {
+					font-weight: bold;
+					height: 50rpx;
+					text-align: center;
 				}
 			}
 

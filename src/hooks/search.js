@@ -20,23 +20,29 @@ export function searchRelevant() {
 	let historyArr = ref(JSON.parse(uni.getStorageSync('searchHistory') || "[]"))
 	let isShowHistory = computed(() => inputValue.value == '')
 
+	onLoad(({
+		keyword = ''
+	}) => {
+		inputValue.value = keyword
+	})
+
+	watch(inputValue, handleInput)
+
 	// 搜索(防抖)
 	let flag = false
 
-	function handleInput(e) {
+	function handleInput() {
 		if (flag) return
 
 		flag = true
 		setTimeout(() => {
 			flag = false
-			const value = e.detail.value.trim()
-
+			const value = inputValue.value.trim()
 			if (value) {
 				// 执行搜索
 				getSearchResult(value).then(({
 					code,
 					result,
-					songCount
 				}) => {
 					searchResultArr.value = []
 					if (code == 200) {
@@ -45,11 +51,11 @@ export function searchRelevant() {
 						historyArr.value = Array.from(new Set(historyArr.value))
 						uni.setStorageSync('searchHistory', JSON.stringify(historyArr.value))
 
-						if (songCount) {
+						if (result.songCount) {
 							// 搜索结果
 							// 富文本渲染
 							result.songs.forEach(s => {
-								s.name = s.name.replace(value,
+								s.richName = s.name.replace(value,
 									`<span style="color:#95969a">${value}</span>`)
 							})
 							searchResultArr.value = result.songs
@@ -57,7 +63,7 @@ export function searchRelevant() {
 					}
 				})
 			}
-		}, 1000)
+		}, 700)
 	}
 
 	// 删除所有历史记录

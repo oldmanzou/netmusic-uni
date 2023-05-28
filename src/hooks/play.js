@@ -129,8 +129,7 @@ export function init() {
 
 		query.select(`.${selector}`).fields({
 			size: true
-		}, res => {
-		}).exec()
+		}, res => {}).exec()
 	}
 
 	// 初始化播放器
@@ -144,7 +143,7 @@ export function init() {
 
 			currentPlayTime.value = moment(cTime * 1000).format('mm:ss')
 			if (!isChanging.value) {
-				currentProgressValue.value = (cTime / $global.$audioContext.duration) * 100
+				currentProgressValue.value = (cTime / songDetail.value.dt) * 100
 			}
 
 			if (lyricTimes.value.includes(Math.floor(cTime))) {

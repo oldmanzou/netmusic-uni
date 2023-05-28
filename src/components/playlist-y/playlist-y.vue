@@ -107,8 +107,9 @@
 	}
 
 	function toPlaylistPage(playlistId) {
+		console.log('to playlist');
 		uni.navigateTo({
-			url: `/pages/playlist/playlist?id=${playlistId}`
+			url: `/songPackage/playlist/playlist?id=${playlistId}`
 		})
 	}
 </script>

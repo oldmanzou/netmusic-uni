@@ -2,8 +2,8 @@
 	<u-popup mode="left" :show="isShowLeftPopup" @close="closeLeftPopup">
 		<view class="popup_container">
 			<view class="popup_header">
-				<image class="avatar" :src="userProfile.avatarUrl" mode=""></image>
-				<text class="username">{{userProfile.nickname}}</text>
+				<image class="avatar" :src="userProfile.avatarUrl || '/static/images/myMusic/default_avatar.png'" mode=""></image>
+				<text class="username">{{userProfile.nickname || '游客登录'}}</text>
 				<text class="iconfont icon-xiangyou1"></text>
 				<text class="iconfont icon-saoma1"></text>
 			</view>

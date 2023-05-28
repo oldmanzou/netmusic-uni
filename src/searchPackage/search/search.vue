@@ -3,9 +3,9 @@
 		<view class="search_wrapper">
 			<text class="iconfont icon-sousuo"></text>
 			<input type="text" v-model.trim="inputValue" :placeholder="defaultKeyword"
-				placeholder-class="input_placeholder" class="input" @input="handleInput">
+				placeholder-class="input_placeholder" class="input">
 		</view>
-		<text class="search_btn">搜索</text>
+		<text class="search_btn" @click="clickSearchBtn">搜索</text>
 	</view>
 
 	<!-- tabs -->
@@ -45,16 +45,16 @@
 					<text class="iconfont icon-shanchu" @click="delHistory"></text>
 				</view>
 				<view class="history_list">
-					<view class="history_item" v-for="h in historyArr" :key="h">{{h}}</view>
+					<view class="history_item" v-for="h in historyArr" :key="h" @click="toSearchResultPage(h)">{{h}}</view>
 				</view>
 			</view>
 		</view>
 
 		<!-- 搜索结果 -->
 		<view class="search_result" v-show="!isShowHistory">
-			<view class="item" v-for="s in searchResultArr" :key="s.id">
+			<view class="item" v-for="s in searchResultArr" :key="s.id" @click="toSearchResultPage(s.name)">
 				<text class="iconfont icon-sousuo"></text>
-				<view class="txt" v-html="s.name"></view>
+				<view class="txt" v-html="s.richName"></view>
 			</view>
 		</view>
 
@@ -77,6 +77,19 @@
 		handleInput,
 		delHistory
 	} = searchRelevant()
+
+	// 跳转搜索结果页面
+	function toSearchResultPage(keyword) {
+		uni.navigateTo({
+			url: `/searchPackage/searchResult/searchResult?keyword=${keyword}`
+		})
+	}
+	
+	// 点击搜索按钮的回调
+	function clickSearchBtn() {
+		const keyword = inputValue.value.trim() || defaultKeyword.value
+		toSearchResultPage(keyword)
+	}
 </script>
 
 <script>

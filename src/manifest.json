@@ -55,7 +55,11 @@
 			"urlCheck": false
 		},
 		"usingComponents": true,
-		"requiredBackgroundModes": ["audio"]
+		"requiredBackgroundModes": ["audio"],
+		"optimization": {
+			"subPackages": true
+		},
+		"lazyCodeLoading": "requiredComponents"
 	},
 	"mp-alipay": {
 		"usingComponents": true

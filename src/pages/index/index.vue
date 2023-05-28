@@ -5,7 +5,7 @@
 			<text class="iconfont icon-liebiao" @click="showLeftPopup"></text>
 			<view class="inputWrapper">
 				<text class="iconfont icon-sousuo"></text>
-				<input type="text" :placeholder="defaultSearchKeyword" placeholder-class="placeholder">
+				<input type="text" class="input" :placeholder="defaultSearchKeyword" placeholder-class="placeholder" @focus="handleInputFocus">
 				<text class="iconfont icon-saoma"></text>
 			</view>
 			<text class="iconfont icon-maikefeng"></text>
@@ -92,6 +92,13 @@
 	let banners = hGetBanners() // banners列表
 	let personalized = hGetPersonalized() // 获取推荐歌单
 
+	// 输出框获得焦点,去搜索页
+	function handleInputFocus() {
+		uni.navigateTo({
+			url:'/searchPackage/search/search'
+		})
+	}
+
 	// 去每日推荐页面
 	function toDailyPage() {
 		uni.navigateTo({
@@ -102,7 +109,7 @@
 	// 去歌单广场
 	function toPlaylistSquare() {
 		uni.navigateTo({
-			url: '/pages/playlistSquare/playlistSquare'
+			url: '/songPackage/playlistSquare/playlistSquare'
 		})
 	}
 	
@@ -148,10 +155,11 @@
 				border-radius: 30rpx;
 				padding: 0 20rpx;
 
-				input {
+				.input {
 					height: 100%;
 					flex: 1;
 					margin-left: 10rpx;
+					caret-color:transparent;
 				}
 
 				.placeholder {
